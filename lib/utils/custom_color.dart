@@ -11,6 +11,7 @@ class CustomColor {
   static final HexColor SELECTED_LABEL_COLOR = HexColor('D93043');
   static final HexColor ITEM_BORDER_COLOR = HexColor('F1F1F1');
   static final HexColor DIVIDER_COLOR = HexColor('DEDEDE');
+  static final HexColor SEARCH_FIELD_COLOR = HexColor('F1F1F1');
 
   static final List<HexColor> SITE_COLOR_LIST = [
     HexColor('FFD0D0'),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
@@ -46,26 +47,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final MainProvider mp = Provider.of<MainProvider>(context, listen: true);
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: _buildAppBar(context),
-        floatingActionButtonLocation:
-            FloatingActionButtonLocation.miniCenterDocked,
-        floatingActionButton: _buildFloatingActionButton(context),
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            //all Items
-            _buildAllCategoryPage(mp),
-            //site Categorized Items
-            _buildSiteCategoryPage(),
-            //date Categorized Items
-            _buildDateCategoryPage(context),
-            //Favorite Items
-            _buildAllCategoryPage(mp),
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: _buildAppBar(context),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButton: _buildFloatingActionButton(context),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          //all Items
+          _buildAllCategoryPage(mp),
+          //site Categorized Items
+          _buildSiteCategoryPage(),
+          //date Categorized Items
+          _buildDateCategoryPage(context),
+          //Favorite Items
+          _buildFavoritePage(mp),
+        ],
       ),
     );
   }
@@ -90,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           children: [
             FloatMenuButton(
               onPressed: () => Navigator.pushNamed(context, SearchScreen.id),
-              icon: 'assets/icon/icon_newboard.png',
+              icon: 'assets/icon/icon_search.png',
             ),
             FloatMenuButton(
               onPressed: () => _showAddLinkBottomSheet(context),
@@ -164,6 +163,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return AppBar(
       backgroundColor: CustomColor.APPBAR_COLOR,
       elevation: 0,
+        systemOverlayStyle:const  SystemUiOverlayStyle(statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark),
       bottom: PreferredSize(
         preferredSize: Size(MediaQuery.of(context).size.width, 0),
         child: ListView(
@@ -241,7 +241,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       padding: const EdgeInsets.only(left: 12, right: 12, bottom: 32, top: 20),
       itemCount: 5,
       itemBuilder: (context, index) {
-        return ContentsItem();
+        return const ContentsItem();
       },
     );
   }
@@ -423,7 +423,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       padding: const EdgeInsets.only(left: 12, right: 12, bottom: 32, top: 20),
       itemCount: 5,
       itemBuilder: (context, index) {
-        return ContentsItem();
+        return const ContentsItem();
       },
     );
   }

@@ -8,13 +8,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
-  animated_bottom_navigation_bar:
-    dependency: "direct main"
-    description:
-      name: animated_bottom_navigation_bar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.2"
   async:
     dependency: transitive
     description:
@@ -189,13 +182,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.10"
-  material_floating_search_bar:
-    dependency: "direct main"
-    description:
-      name: material_floating_search_bar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.6"
   meta:
     dependency: transitive
     description:
@@ -252,6 +238,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.5"
+  simple_tags:
+    dependency: "direct main"
+    description:
+      name: simple_tags
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   sky_engine:
     dependency: transitive
     description: flutter
