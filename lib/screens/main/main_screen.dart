@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
+import 'package:sorty/components/bars/modal_top_bar.dart';
 import 'package:sorty/components/buttons/navigation_button.dart';
 import 'package:sorty/components/text/bottom_sheet_title.dart';
+import 'package:sorty/components/textfields/modal_text_field.dart';
 import 'package:sorty/providers/main_provider.dart';
 import 'package:sorty/screens/home/home_screen.dart';
 import 'package:sorty/screens/my_page/my_page_screen.dart';
@@ -176,7 +178,11 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
             const SizedBox(
               height: 20,
             ),
-            ModalTopBar(),
+            ModalTopBar(
+              backButtonPressed: () => Navigator.pop(context),
+              completeButtonPressed: () => Navigator.pop(context),
+              title: '새보드',
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -191,7 +197,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                 const SizedBox(
                   height: 12,
                 ),
-                const BottomSheetTextField(),
+                const ModalTextField(),
                 const SizedBox(
                   height: 20,
                 ),
@@ -212,7 +218,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                   child: SizedBox(
                     width: double.infinity,
                     child: GridView.builder(
-                      padding: EdgeInsets.zero,
+                        padding: EdgeInsets.zero,
                         scrollDirection: Axis.vertical,
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -224,17 +230,21 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                         ),
                         itemCount: 20,
                         itemBuilder: (context, index) => Column(
-                          children: [
-                            CircleAvatar(
-                              radius: 32,
-                              backgroundColor: Colors.grey[300],
-                            ),
-                            const SizedBox(height: 4,),
-                            const Text('이름', style: TextStyle(
-                              color: Colors.black, fontSize: 12
-                            ),)
-                          ],
-                        )),
+                              children: [
+                                CircleAvatar(
+                                  radius: 32,
+                                  backgroundColor: Colors.grey[300],
+                                ),
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                const Text(
+                                  '이름',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 12),
+                                )
+                              ],
+                            )),
                   ),
                 )
               ],
@@ -542,66 +552,33 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
       context: context,
       backgroundColor: CustomColor.BACKGROUND_COLOR,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(20),
-          topLeft: Radius.circular(20)
-        )
-      ),
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(20), topLeft: Radius.circular(20))),
       builder: (context) => Container(
         padding: const EdgeInsets.only(top: 16, right: 24, left: 24),
-        height: MediaQuery.of(context).size.height * 0.65,
+        height: MediaQuery.of(context).size.height * 0.55,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: 100,
-              height: 10,
-              decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(12)),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 32,
-                  height: 32,
-                  color: Colors.black54,
-                ),
-                const Text(
-                  '링크추가하기',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                      decoration: TextDecoration.none),
-                ),
-                Container(
-                  width: 32,
-                  height: 32,
-                  color: Colors.black54,
+                  width: 100,
+                  height: 10,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.circular(12)),
                 ),
               ],
             ),
             const SizedBox(
               height: 20,
             ),
-            const BottomSheetTitle(
-              text: '웹링크',
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Container(
-              height: 40,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.black54,
-                borderRadius: BorderRadius.circular(4),
-              ),
-            ),
+            ModalTopBar(
+                backButtonPressed: () => Navigator.pop(context),
+                completeButtonPressed: () => Navigator.pop(context),
+                title: '웹링크'),
             const SizedBox(
               height: 20,
             ),
@@ -611,83 +588,45 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
             const SizedBox(
               height: 12,
             ),
-            Container(
-              height: 40,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.black54,
-                borderRadius: BorderRadius.circular(4),
-              ),
+            const ModalTextField(),
+            const SizedBox(
+              height: 20,
             ),
+            const BottomSheetTitle(
+              text: '코멘트',
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            const ModalTextField(),
+            const SizedBox(
+              height: 20,
+            ),
+            Divider(
+              height: 2,
+              color: CustomColor.DIVIDER_COLOR,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const BottomSheetTitle(text: '보드선택'),
+            const SizedBox(height: 12,),
+            SizedBox(
+              width: double.infinity,
+              height: 80,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemCount: 4,
+                itemBuilder: (context, index){
+                return CircleAvatar();
+              },
+
+              ),
+            )
           ],
         ),
       ),
-    );
-  }
-}
-
-class ModalTopBar extends StatelessWidget {
-  const ModalTopBar({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: const SizedBox(
-              width: 32,
-              height: 32,
-              child: Icon(
-                Icons.arrow_back_ios,
-                size: 24,
-                color: Colors.black,
-              )),
-        ),
-        const Text(
-          '새보드',
-          style: TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              decoration: TextDecoration.none),
-        ),
-        GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: const SizedBox(
-            width: 32,
-            height: 32,
-            child: Center(
-              child: Text(
-                '완료',
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.none),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class BottomSheetTextField extends StatelessWidget {
-  const BottomSheetTextField({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8))),
     );
   }
 }
