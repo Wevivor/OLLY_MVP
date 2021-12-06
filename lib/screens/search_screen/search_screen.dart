@@ -28,7 +28,7 @@ class _SearchScreenState extends State<SearchScreen>
         fit: StackFit.expand,
         children: [
           Container(
-            padding: EdgeInsets.only(top: 60),
+            padding: const EdgeInsets.only(top: 60),
             child: Column(
               children: [
                 TabBar(
