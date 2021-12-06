@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.wevivor.sorty">
+          package="com.wevivor.olly">
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
-            android:label="clay_mobile"
+            android:label="olly"
             android:icon="@mipmap/ic_launcher"
             android:usesCleartextTraffic="true">
         <service

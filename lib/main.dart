@@ -12,15 +12,14 @@ import 'package:sorty/screens/login/login_screen.dart';
 import 'package:sorty/screens/main/main_screen.dart';
 import 'package:sorty/screens/memo/memo_screen.dart';
 import 'package:sorty/screens/my_board/my_board_screen.dart';
-import 'package:sorty/screens/my_page/my_page_screen.dart';
 import 'package:sorty/screens/photo_detail/photo_detail_screen.dart';
 import 'package:sorty/screens/photo_update/photo_update_screen.dart';
+import 'package:sorty/screens/profile/profile_screen.dart';
 import 'package:sorty/screens/push_alarm/push_alarm_screen.dart';
 import 'package:sorty/screens/remind_alarm/remind_alarm_screen.dart';
 import 'package:sorty/screens/remind_alarm_setting/remind_alarm_setting_screen.dart';
 import 'package:sorty/screens/search_screen/search_screen.dart';
 import 'package:sorty/screens/settings/settings_screen.dart';
-import 'package:sorty/screens/test/test_screen.dart';
 import 'package:sorty/screens/weblink/weblink_screen.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
@@ -54,7 +53,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primaryColor: Colors.white,
         ),
-        home: const MainScreen(),
+        home: HomeScreen(),
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
@@ -67,6 +66,7 @@ class _MyAppState extends State<MyApp> {
         routes: {
           //네비게이션 스크린
           MainScreen.id: (context) => MainScreen(),
+          HomeScreen.id: (context) => HomeScreen(),
           //스크린
           LoginScreen.id: (context) => LoginScreen(),
           MyBoardScreen.id: (context) => MyBoardScreen(),
@@ -75,6 +75,7 @@ class _MyAppState extends State<MyApp> {
           LinkDetailScreen.id: (context) => LinkDetailScreen(),
           PhotoDetailScreen.id: (context) => PhotoDetailScreen(),
           PhotoUpdateScreen.id: (context) => PhotoUpdateScreen(),
+          ProfileScreen.id: (context) => ProfileScreen(),
           MemoScreen.id: (context) => MemoScreen(),
           WebLinkScreen.id: (context) => WebLinkScreen(),
           RemindAlarmScreen.id: (context) => RemindAlarmScreen(),
