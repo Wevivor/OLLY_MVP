@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Sorty',
+        title: 'Olly',
         theme: ThemeData(
           primaryColor: Colors.white,
         ),
