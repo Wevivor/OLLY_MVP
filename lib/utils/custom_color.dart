@@ -15,16 +15,14 @@ class CustomColor {
   static final HexColor KAKAO_BUTTON_COLOR = HexColor('FFE812');
   static final HexColor APPLE_BUTTON_COLOR = HexColor('F1F1F1');
   static final HexColor GOOGLE_BUTTON_COLOR = HexColor('222222');
+  static final HexColor HINT_COLOR = HexColor('#DDDDDD');
 
   static final List<HexColor> SITE_COLOR_LIST = [
-    HexColor('FFD0D0'),
-    HexColor('FAFFC5'),
-    HexColor('D2EDFF'),
-    HexColor('AEEAE6'),
-    HexColor('FFE9D0'),
-    HexColor('D6D8FF'),
-    HexColor('FED2FF'),
-    HexColor('FFDAA3'),
+    HexColor('FAFAFA'),
+    HexColor('097CEA'),
+    HexColor('E8309E'),
+    HexColor('32B44A'),
+    HexColor('FC0D1B'),
   ];
 }
 

@@ -4,17 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
+import 'package:sorty/components/buttons/float_menu_button.dart';
 import 'package:sorty/components/items/contents_item.dart';
 import 'package:sorty/components/textfields/modal_text_field.dart';
-import 'package:sorty/components/tiles/contents_tile.dart';
+
 import 'package:sorty/providers/main_provider.dart';
-import 'package:sorty/screens/my_page/my_page_screen.dart';
 import 'package:sorty/screens/profile/profile_screen.dart';
 import 'package:sorty/screens/search_screen/search_screen.dart';
 import 'package:sorty/utils/custom_category.dart';
 import 'package:sorty/utils/custom_color.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -28,9 +27,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late TabController _tabController;
   late DateRangePickerController _controller;
   DateTime _date = DateTime.now();
-  String _viewType = 'grid';
-  bool _editMode = false;
-  final List<int> _selectedIndexList = [];
 
   @override
   void initState() {
@@ -175,101 +171,43 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: CustomColor.APPBAR_COLOR,
-      elevation: 0,
+      elevation: 1,
       systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.white,
           statusBarIconBrightness: Brightness.dark),
       bottom: PreferredSize(
         preferredSize: Size(MediaQuery.of(context).size.width, 0),
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: TabBar(
-                    onTap: (_) {
-                      setState(() {});
-                    },
-                    controller: _tabController,
-                    indicator: DotIndicator(
-                        distanceFromCenter: 16,
-                        color: CustomColor.PRIMARY_COLOR),
-                    isScrollable: true,
-                    unselectedLabelColor: CustomColor.UNSELECTED_LABEL_COLOR,
-                    labelColor: CustomColor.PRIMARY_COLOR,
-                    labelStyle: const TextStyle(
-                      fontSize: 12,
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 0),
-                    tabs: const [
-                      Tab(
-                        text: '전체',
-                      ),
-                      Tab(text: '사이트별'),
-                      Tab(text: '날짜별'),
-                      Tab(text: 'Favorite'),
-                    ],
-                  ),
-                ),
-                Expanded(flex: 1, child: _buildViewTypeButton(context))
-              ],
+        child: TabBar(
+          onTap: (_) {
+            setState(() {});
+          },
+          indicatorSize: TabBarIndicatorSize.tab,
+          indicatorColor: CustomColor.PRIMARY_COLOR,
+          controller: _tabController,
+          isScrollable: true,
+          unselectedLabelColor: CustomColor.UNSELECTED_LABEL_COLOR,
+          labelColor: CustomColor.PRIMARY_COLOR,
+          labelStyle: const TextStyle(
+            fontSize: 12,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 0),
+          tabs: const [
+            Tab(
+              text: '전체',
             ),
+            Tab(text: '사이트별'),
+            Tab(text: '날짜별'),
+            Tab(text: 'Favorite'),
           ],
         ),
       ),
     );
   }
 
-  //Build Grid/List View Type Button in AppBar
-
-  Widget _buildViewTypeButton(BuildContext context) {
-    if (_tabController.index == 0 && _viewType == 'grid') {
-      return GestureDetector(
-          onTap: () => setState(() => _viewType = 'list'),
-          child: Image.asset(
-            'assets/icon/icon_grid.png',
-            width: 24,
-            height: 24,
-          ));
-    } else if (_tabController.index == 0 && _viewType == 'list') {
-      return IconButton(
-          onPressed: () => setState(() => _viewType = 'grid'),
-          icon: Image.asset(
-            'assets/icon/icon_list.png',
-            width: 20,
-            height: 20,
-          ));
-    }
-    return Container();
-  }
 
   //Building Grid All Categorized Page
 
   GridView _buildAllCategoryPage(MainProvider mp) {
-    if (_viewType == 'list') {
-      return GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
-              mainAxisSpacing: 12,
-              childAspectRatio: 1 / 0.4),
-          padding:
-              const EdgeInsets.only(left: 12, right: 12, bottom: 32, top: 20),
-          itemCount: 8,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-                onLongPress: (){
-                  setState(() {
-                    _editMode = true;
-                    print(_editMode);
-                  });
-                },
-                child: const ContentsTile(
-
-                ));
-          });
-    } else {
       return GridView.builder(
         controller: mp.homeScreenController,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -277,36 +215,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
             childAspectRatio: 1 / 0.8),
-        padding:
-            const EdgeInsets.only(left: 12, right: 12, bottom: 32, top: 20),
+        padding: const EdgeInsets.only(left: 12, right: 12, bottom: 32, top: 20),
         itemCount: 5,
         itemBuilder: (context, index) {
-          return GestureDetector(
-            onLongPress: (){
-              setState(() {
-                _editMode = !_editMode;
-              });
-            },
-            onTap: (){
-              if(_editMode && _selectedIndexList.contains(index)){
-                setState(() {
-                  _selectedIndexList.remove(index);
-                });
-              }else if(_editMode && !_selectedIndexList.contains(index)){
-                setState(() {
-                  _selectedIndexList.add(index);
-                });
-              }
-
-            },
-            child: ContentsItem(
-              editMode: _editMode,
-              isChecked: _selectedIndexList.contains(index)
-            ),
-          );
+          return const ContentsItem();
         },
       );
-    }
+
+
   }
 
   //Building Site Categorized Page
@@ -315,33 +231,44 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return GridView.builder(
         padding: const EdgeInsets.all(20),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
+            crossAxisCount: 1,
             mainAxisSpacing: 20,
             crossAxisSpacing: 14,
-            childAspectRatio: 1 / 0.5),
-        itemCount: 8,
-        itemBuilder: (context, index) => Container(
-              decoration: BoxDecoration(
-                  color: CustomColor.SITE_COLOR_LIST[index],
-                  borderRadius: BorderRadius.circular(8)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    CustomCategory.SITE_CATEGORY_LIST[index],
-                    style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  const Text(
-                    '28개',
-                    style: TextStyle(fontSize: 10),
-                  )
-                ],
+            childAspectRatio: 1 / 0.2),
+        itemCount: 5,
+        itemBuilder: (context, index) => GestureDetector(
+          onTap: ()=> {},
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+                decoration: BoxDecoration(
+                    color: CustomColor.SITE_COLOR_LIST[index],
+                    borderRadius: BorderRadius.circular(8)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          CustomCategory.SITE_CATEGORY_LIST[index],
+                          style: const TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        const Text(
+                          '28개',
+                          style: TextStyle(fontSize: 10),
+                        )
+                      ],
+                    ),
+                    Image.asset(CustomCategory.SITE_CATEGORY_ICON_LIST[index], width: 100,)
+                  ],
+                ),
               ),
-            ));
+        ));
   }
 
   //Building Date Categorized Page
@@ -461,15 +388,36 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+          crossAxisCount: 3,
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,
-          childAspectRatio: 1 / 1,
+          childAspectRatio: 1 / 1.5,
         ),
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: 4,
+        itemCount: 3,
         itemBuilder: (context, index) {
-          return const ContentsItem();
+          return Column(
+            children: [
+              Flexible(
+                  flex: 3,
+                  child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.grey,
+                ),
+
+              )),
+              const Flexible(
+                  flex: 1,
+                  child: SizedBox(height: 12,)),
+              const Flexible(
+                  flex: 1,
+                  child: Text('댕댕이'))
+
+            ],
+          );
         });
   }
 

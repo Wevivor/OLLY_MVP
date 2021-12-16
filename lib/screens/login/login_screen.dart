@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:sorty/screens/tutorial/tutorial_screen.dart';
 import 'package:sorty/utils/custom_color.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -25,7 +26,20 @@ class LoginScreen extends StatelessWidget {
               height: 105,
             ),
             LoginButton(
-              onPressed: () {},
+                image: 'assets/logo/google.png',
+                onPressed: () =>
+                    Navigator.pushReplacementNamed(context, TutorialScreen.id),
+                text: const Text(
+                  'Login with Google',
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: CustomColor.GOOGLE_BUTTON_COLOR),
+            const SizedBox(
+              height: 16,
+            ),
+            LoginButton(
+              onPressed: () =>
+                  Navigator.pushReplacementNamed(context, TutorialScreen.id),
               image: 'assets/logo/kakao.png',
               color: CustomColor.KAKAO_BUTTON_COLOR,
               text: const Text(
@@ -38,13 +52,12 @@ class LoginScreen extends StatelessWidget {
             ),
             LoginButton(
                 image: 'assets/logo/apple.png',
-                onPressed: () {},
-                text: const Text('Login with Apple',),
+                onPressed: () =>
+                    Navigator.pushReplacementNamed(context, TutorialScreen.id),
+                text: const Text(
+                  'Login with Apple',
+                ),
                 color: CustomColor.APPLE_BUTTON_COLOR),
-            const SizedBox(height: 16,),
-            LoginButton(image: 'assets/logo/google.png', onPressed: (){}, text: const Text('Login with Google', style: TextStyle(
-              color: Colors.white
-            ),), color: CustomColor.GOOGLE_BUTTON_COLOR)
           ],
         ),
       ),

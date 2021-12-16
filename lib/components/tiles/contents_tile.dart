@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 class ContentsTile extends StatelessWidget {
   const ContentsTile({
-    Key? key, this.editMode = false, this.isChecked = false,
+    Key? key, this.editMode = false, this.isChecked = false, required this.onPressed,
   }) : super(key: key);
   final bool editMode;
   final bool isChecked;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +16,7 @@ class ContentsTile extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black.withOpacity(0.3), blurRadius: 5)
-              ]),
+              color: Colors.white,),
           child: Row(
             children: [
               Container(
@@ -75,7 +72,7 @@ class ContentsTile extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.grey.withOpacity(0.3)
             ),
-            child: Center(
+            child: const Center(
               child: Icon(Icons.check, size: 20,),
             ),
           ),
