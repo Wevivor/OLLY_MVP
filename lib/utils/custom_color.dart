@@ -12,6 +12,9 @@ class CustomColor {
   static final HexColor ITEM_BORDER_COLOR = HexColor('F1F1F1');
   static final HexColor DIVIDER_COLOR = HexColor('DEDEDE');
   static final HexColor SEARCH_FIELD_COLOR = HexColor('F1F1F1');
+  static final HexColor KAKAO_BUTTON_COLOR = HexColor('FFE812');
+  static final HexColor APPLE_BUTTON_COLOR = HexColor('F1F1F1');
+  static final HexColor GOOGLE_BUTTON_COLOR = HexColor('222222');
 
   static final List<HexColor> SITE_COLOR_LIST = [
     HexColor('FFD0D0'),
