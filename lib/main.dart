@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:sorty/providers/main_provider.dart';
+import 'package:sorty/screens/category_detail/category_detail_screen.dart';
 import 'package:sorty/screens/home/home_screen.dart';
-import 'package:sorty/screens/link_detail/link_detail_screen.dart';
 import 'package:sorty/screens/login/login_screen.dart';
 import 'package:sorty/screens/profile/profile_screen.dart';
 import 'package:sorty/screens/register/register_screen.dart';
@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
           SearchScreen.id: (context) => SearchScreen(),
           ProfileScreen.id: (context) => ProfileScreen(),
           WebLinkScreen.id: (context) => WebLinkScreen(),
-          LinkDetailScreen.id: (context) => LinkDetailScreen(),
+          CategoryDetailScreen.id: (context) => CategoryDetailScreen(),
 
 
         },

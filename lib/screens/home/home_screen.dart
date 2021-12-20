@@ -9,8 +9,10 @@ import 'package:sorty/components/items/contents_item.dart';
 import 'package:sorty/components/textfields/modal_text_field.dart';
 
 import 'package:sorty/providers/main_provider.dart';
+import 'package:sorty/screens/category_detail/category_detail_screen.dart';
 import 'package:sorty/screens/profile/profile_screen.dart';
 import 'package:sorty/screens/search_screen/search_screen.dart';
+import 'package:sorty/screens/weblink/weblink_screen.dart';
 import 'package:sorty/utils/custom_category.dart';
 import 'package:sorty/utils/custom_color.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -26,13 +28,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late TabController _tabController;
   late DateRangePickerController _controller;
-  DateTime _date = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
+  int _displayMonth = DateTime.now().month;
+  int _displayYear = DateTime.now().year;
 
   @override
   void initState() {
     _controller = DateRangePickerController();
     if (_controller.displayDate != null) {
-      _date = _controller.displayDate!;
+      _selectedDate = _controller.displayDate!;
     }
     _tabController = TabController(length: 4, vsync: this);
     super.initState();
@@ -87,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
           FloatMenuButton(
             onPressed: () => _showAddLinkBottomSheet(context),
-            icon: 'assets/icon/icon_weblink.png',
+            icon: 'assets/icon/icon_add.png',
           ),
           FloatMenuButton(
             onPressed: () => Navigator.pushNamed(context, ProfileScreen.id),
@@ -204,25 +208,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-
   //Building Grid All Categorized Page
 
   GridView _buildAllCategoryPage(MainProvider mp) {
-      return GridView.builder(
-        controller: mp.homeScreenController,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            childAspectRatio: 1 / 0.8),
-        padding: const EdgeInsets.only(left: 12, right: 12, bottom: 32, top: 20),
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return const ContentsItem();
-        },
-      );
-
-
+    return GridView.builder(
+      controller: mp.homeScreenController,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          childAspectRatio: 1 / 0.8),
+      padding: const EdgeInsets.only(left: 12, right: 12, bottom: 32, top: 20),
+      itemCount: 5,
+      itemBuilder: (context, index) {
+        return ContentsItem(
+          onTap: () {
+            Navigator.pushNamed(context, CategoryDetailScreen.id);
+          },
+        );
+      },
+    );
   }
 
   //Building Site Categorized Page
@@ -237,9 +242,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             childAspectRatio: 1 / 0.2),
         itemCount: 5,
         itemBuilder: (context, index) => GestureDetector(
-          onTap: ()=> {},
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+              onTap: () {},
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
                     color: CustomColor.SITE_COLOR_LIST[index],
                     borderRadius: BorderRadius.circular(8)),
@@ -264,11 +269,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         )
                       ],
                     ),
-                    Image.asset(CustomCategory.SITE_CATEGORY_ICON_LIST[index], width: 100,)
+                    Image.asset(
+                      CustomCategory.SITE_CATEGORY_ICON_LIST[index],
+                      width: 100,
+                    )
                   ],
                 ),
               ),
-        ));
+            ));
   }
 
   //Building Date Categorized Page
@@ -295,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         Container(
           padding: const EdgeInsets.only(left: 20),
           child: Text(
-            DateFormat('yyyy년 MM월').format(_date),
+            DateFormat('yyyy년 MM월').format(_controller.displayDate??DateTime.now()),
             style: const TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold),
           ),
@@ -342,13 +350,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Container _buildDatePicker(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      height: MediaQuery.of(context).size.height * 0.4,
+  Widget _buildDatePicker(BuildContext context) {
+    return SizedBox(
+      height: 360,
       child: SfDateRangePicker(
         controller: _controller,
+        onSelectionChanged: (args){
+          _selectedDate = args.value;
+        },
+        onViewChanged: (args){
+        },
+        allowViewNavigation: false,
+
         view: DateRangePickerView.month,
+        todayHighlightColor: Colors.black,
+        selectionColor: Colors.transparent,
+        startRangeSelectionColor: Colors.transparent,
+        endRangeSelectionColor: Colors.transparent,
+        rangeSelectionColor: Colors.transparent,
+        showTodayButton: false,
+        cellBuilder: (context, details) {
+          return CalendarCell(date: '${details.date.day}', selected: DateFormat('YYYYMMdd').format(_selectedDate) == DateFormat('YYYYMMdd').format(details.date),);
+        },
+
         monthViewSettings: const DateRangePickerMonthViewSettings(
             showTrailingAndLeadingDates: false),
         headerHeight: 0,
@@ -375,7 +399,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Text(
-            '12개 더보기 >',
+            '',
             style: TextStyle(fontSize: 12),
           )
         ],
@@ -396,27 +420,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         physics: const NeverScrollableScrollPhysics(),
         itemCount: 3,
         itemBuilder: (context, index) {
-          return Column(
-            children: [
-              Flexible(
-                  flex: 3,
-                  child: Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.grey,
-                ),
-
-              )),
-              const Flexible(
-                  flex: 1,
-                  child: SizedBox(height: 12,)),
-              const Flexible(
-                  flex: 1,
-                  child: Text('댕댕이'))
-
-            ],
+          return GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, WebLinkScreen.id);
+            },
+            child: Column(
+              children: [
+                Flexible(
+                    flex: 3,
+                    child: Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey,
+                      ),
+                    )),
+                const Flexible(
+                    flex: 1,
+                    child: SizedBox(
+                      height: 12,
+                    )),
+                const Flexible(flex: 1, child: Text('댕댕이'))
+              ],
+            ),
           );
         });
   }
@@ -434,9 +461,60 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       padding: const EdgeInsets.only(left: 12, right: 12, bottom: 32, top: 20),
       itemCount: 5,
       itemBuilder: (context, index) {
-        return const ContentsItem();
+        return ContentsItem(
+          onTap: () {
+            Navigator.pushNamed(context, WebLinkScreen.id);
+          },
+        );
       },
     );
   }
 }
 
+class CalendarCell extends StatelessWidget {
+  const CalendarCell({
+    Key? key, this.selected = false, required this.date,
+  }) : super(key: key);
+  final bool selected;
+  final String date;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 16,
+      child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 11, vertical: 5),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: selected?CustomColor.PRIMARY_COLOR:Colors.transparent),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                date,
+                style: TextStyle(fontSize: 12, color: selected?Colors.white:Colors.black),
+              ),
+              const SizedBox(height: 4,),
+              SizedBox(
+                width: 20,
+                height: 14,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 4, vertical: 2),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: selected?Colors.white:CustomColor.PRIMARY_COLOR),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '3',
+                      style: TextStyle(fontSize: 8, color: selected?Colors.white:Colors.black.withOpacity(0.7)),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          )),
+    );
+  }
+}

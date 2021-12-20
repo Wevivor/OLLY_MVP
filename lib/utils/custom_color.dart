@@ -1,7 +1,7 @@
 import 'package:hexcolor/hexcolor.dart';
 
 class CustomColor {
-  static final HexColor PRIMARY_COLOR = HexColor("D93043");
+  static final HexColor PRIMARY_COLOR = HexColor("F66868");
   static final HexColor INACTIVE_COLOR = HexColor("000000");
   static final HexColor APPBAR_COLOR = HexColor("FFFFFF");
   static final HexColor BACKGROUND_COLOR = HexColor("FFFFFF");
