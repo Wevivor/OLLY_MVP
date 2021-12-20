@@ -234,44 +234,51 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   GridView _buildSiteCategoryPage() {
     return GridView.builder(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.only(bottom: 80, left: 20, top: 20, right: 20),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 1,
+            crossAxisCount: 2,
             mainAxisSpacing: 20,
             crossAxisSpacing: 14,
-            childAspectRatio: 1 / 0.2),
+            childAspectRatio: 1 / 1),
         itemCount: 5,
         itemBuilder: (context, index) => GestureDetector(
               onTap: () {},
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
                     color: CustomColor.SITE_COLOR_LIST[index],
                     borderRadius: BorderRadius.circular(8)),
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          CustomCategory.SITE_CATEGORY_LIST[index],
-                          style: const TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        const Text(
-                          '28개',
-                          style: TextStyle(fontSize: 10),
-                        )
-                      ],
+                    Flexible(
+                      flex: 3,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            CustomCategory.SITE_CATEGORY_LIST[index],
+                            style: const TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          const Text(
+                            '28개',
+                            style: TextStyle(fontSize: 10),
+                          )
+                        ],
+                      ),
                     ),
-                    Image.asset(
-                      CustomCategory.SITE_CATEGORY_ICON_LIST[index],
-                      width: 100,
+                    Flexible(
+                      flex: 2,
+                      child: Image.asset(
+                        CustomCategory.SITE_CATEGORY_ICON_LIST[index],
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.fitWidth,
+                      ),
                     )
                   ],
                 ),
