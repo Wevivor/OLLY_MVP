@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:sorty/components/buttons/float_menu_button.dart';
+import 'package:sorty/components/calendar/calendar_cell.dart';
 import 'package:sorty/components/items/contents_item.dart';
 import 'package:sorty/components/textfields/modal_text_field.dart';
 
@@ -29,8 +30,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late TabController _tabController;
   late DateRangePickerController _controller;
   DateTime _selectedDate = DateTime.now();
-  int _displayMonth = DateTime.now().month;
-  int _displayYear = DateTime.now().year;
 
   @override
   void initState() {
@@ -234,7 +233,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   GridView _buildSiteCategoryPage() {
     return GridView.builder(
-        padding: const EdgeInsets.only(bottom: 80, left: 20, top: 20, right: 20),
+        padding:
+            const EdgeInsets.only(bottom: 80, left: 20, top: 20, right: 20),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: 20,
@@ -310,7 +310,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         Container(
           padding: const EdgeInsets.only(left: 20),
           child: Text(
-            DateFormat('yyyy년 MM월').format(_controller.displayDate??DateTime.now()),
+            DateFormat('yyyy년 MM월')
+                .format(_controller.displayDate ?? DateTime.now()),
             style: const TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold),
           ),
@@ -362,13 +363,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       height: 360,
       child: SfDateRangePicker(
         controller: _controller,
-        onSelectionChanged: (args){
+        onSelectionChanged: (args) {
           _selectedDate = args.value;
         },
-        onViewChanged: (args){
-        },
+        onViewChanged: (args) {},
         allowViewNavigation: false,
-
         view: DateRangePickerView.month,
         todayHighlightColor: Colors.black,
         selectionColor: Colors.transparent,
@@ -377,9 +376,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         rangeSelectionColor: Colors.transparent,
         showTodayButton: false,
         cellBuilder: (context, details) {
-          return CalendarCell(date: '${details.date.day}', selected: DateFormat('YYYYMMdd').format(_selectedDate) == DateFormat('YYYYMMdd').format(details.date),);
+          return CalendarCell(
+            date: '${details.date.day}',
+            selected: DateFormat('YYYYMMdd').format(_selectedDate) ==
+                DateFormat('YYYYMMdd').format(details.date),
+          );
         },
-
         monthViewSettings: const DateRangePickerMonthViewSettings(
             showTrailingAndLeadingDates: false),
         headerHeight: 0,
@@ -474,54 +476,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           },
         );
       },
-    );
-  }
-}
-
-class CalendarCell extends StatelessWidget {
-  const CalendarCell({
-    Key? key, this.selected = false, required this.date,
-  }) : super(key: key);
-  final bool selected;
-  final String date;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 16,
-      child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 11, vertical: 5),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: selected?CustomColor.PRIMARY_COLOR:Colors.transparent),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                date,
-                style: TextStyle(fontSize: 12, color: selected?Colors.white:Colors.black),
-              ),
-              const SizedBox(height: 4,),
-              SizedBox(
-                width: 20,
-                height: 14,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 4, vertical: 2),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: selected?Colors.white:CustomColor.PRIMARY_COLOR),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Center(
-                    child: Text(
-                      '3',
-                      style: TextStyle(fontSize: 8, color: selected?Colors.white:Colors.black.withOpacity(0.7)),
-                    ),
-                  ),
-                ),
-              )
-            ],
-          )),
     );
   }
 }
