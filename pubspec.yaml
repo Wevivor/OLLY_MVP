@@ -52,7 +52,6 @@ dependencies:
   metadata_fetch: ^0.4.1
   url_launcher: ^6.0.15
   webview_flutter: ^2.3.1
-  flutter_inappwebview: ^5.3.2
   #  api 관련
   http: ^0.13.4
   # Localization 관련
